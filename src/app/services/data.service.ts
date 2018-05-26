@@ -22,4 +22,8 @@ export class DataService {
     deleteUser(id) {
         return this.http.delete('https://jsonplaceholder.typicode.com/users/' + id).pipe(map(res => res.json()));
     }
+
+    updateUser(user) {
+        return this.http.put('https://jsonplaceholder.typicode.com/users/' + user.id, user).pipe(map(res => res.json()));
+    }
 }

@@ -27,6 +27,7 @@ import { DataService } from '../../services/data.service';
                     <li class="list-group-item" >Email: {{ user.email }}</li>
                     <li class="list-group-item" >Phone: {{ user.phone }}</li>
                 </ul>
+                <button style="margin-right: 3px;" class="btn btn-primary btn-xs" (click)="updateUser(user)">Edit</button> 
                 <button class="btn btn-danger btn-xs" (click)="deleteUser(user.id)">Delete</button>
                 <br/>
                 <br/>
@@ -39,10 +40,13 @@ export class SandboxComponent {
 
     users: any[];
     user = {
+        id: '',
         name: '',
         email: '',
         phone: ''
     };
+
+    isEdit: boolean = false;
 
     constructor(private dataService: DataService) {
         this.dataService.getData().subscribe((data) => {
@@ -51,10 +55,23 @@ export class SandboxComponent {
     }
 
     onSubmit() {
-        this.dataService.addUser(this.user).subscribe(user => {
-            console.log(user);
-            this.users.unshift(user);
-        });
+        if (this.isEdit) {
+            this.dataService.updateUser(this.user).subscribe(res => {
+                console.log(res);
+                for (let i = 0; i < this.users.length; i++) {
+                    if (this.users[i].id == this.user.id) {
+                        this.users.splice(i, 1);
+                    }
+                }
+                this.users.unshift(this.user);
+            });
+        } else {
+            this.dataService.addUser(this.user).subscribe(user => {
+                console.log(user);
+                this.users.unshift(user);
+            });
+        }
+
     }
 
     deleteUser(id) {
@@ -66,6 +83,12 @@ export class SandboxComponent {
                 }
             }
         });
+    }
+
+    updateUser(user) {
+        this.isEdit = true;
+        this.user = user;
+
     }
 
 }
