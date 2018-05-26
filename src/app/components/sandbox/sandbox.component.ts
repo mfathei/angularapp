@@ -6,7 +6,7 @@ import { DataService } from '../../services/data.service';
     template: `
         <div class="container">
             <ul class="list-group">
-                <li class="list-group-item" *ngFor="let user of users">{{ user }}</li>
+                <li class="list-group-item" *ngFor="let p of data">{{ p }}</li>
             </ul>
         </div>
     `
@@ -14,10 +14,12 @@ import { DataService } from '../../services/data.service';
 
 export class SandboxComponent {
 
-    users: string[];
+    data: any[] = [];
 
     constructor(private dataService: DataService) {
-        this.users = this.dataService.getUsers();
+        this.dataService.getData().subscribe((data) => {
+            this.data.push(data);
+        });
     }
 
 }

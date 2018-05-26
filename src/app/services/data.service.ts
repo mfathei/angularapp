@@ -1,10 +1,33 @@
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
 
 @Injectable()
 export class DataService {
-    users: string[] = ['Sharon', 'Glad', 'Steve'];
+    data: Observable<any>;
 
-    getUsers(): string[] {
-        return this.users;
+    getData() {
+        this.data = new Observable(observer => {
+            setTimeout(() => {
+                observer.next(1);
+            }, 1000);
+
+            setTimeout(() => {
+                observer.next(2);
+            }, 2000);
+
+            setTimeout(() => {
+                observer.next(3);
+            }, 3000);
+
+            setTimeout(() => {
+                observer.next('Hello');
+            }, 4000);
+
+            setTimeout(() => {
+                observer.complete();
+            }, 5000);
+        });
+
+        return this.data;
     }
 }
