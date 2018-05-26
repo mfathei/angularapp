@@ -18,4 +18,8 @@ export class DataService {
     addUser(user) {
         return this.http.post('https://jsonplaceholder.typicode.com/users', user).pipe(map(res => res.json()));
     }
+
+    deleteUser(id) {
+        return this.http.delete('https://jsonplaceholder.typicode.com/users/' + id).pipe(map(res => res.json()));
+    }
 }

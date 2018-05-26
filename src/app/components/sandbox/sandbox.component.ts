@@ -21,12 +21,16 @@ import { DataService } from '../../services/data.service';
                 <input type="submit" value="Submit" class="btn btn-success">
             </form>
             <br/>
-            <ul class="list-group" *ngFor="let user of users">
-                <li class="list-group-item" >Name: {{ user.name }}</li>
-                <li class="list-group-item" >Email: {{ user.email }}</li>
-                <li class="list-group-item" >Phone: {{ user.phone }}</li>
-            </ul>
-            <br/>
+            <div  *ngFor="let user of users">
+                <ul class="list-group">
+                    <li class="list-group-item" >Name: {{ user.name }}</li>
+                    <li class="list-group-item" >Email: {{ user.email }}</li>
+                    <li class="list-group-item" >Phone: {{ user.phone }}</li>
+                </ul>
+                <button class="btn btn-danger btn-xs" (click)="deleteUser(user.id)">Delete</button>
+                <br/>
+                <br/>
+            </div>
         </div>
     `
 })
@@ -46,11 +50,22 @@ export class SandboxComponent {
         });
     }
 
-    onSubmit(){
+    onSubmit() {
         this.dataService.addUser(this.user).subscribe(user => {
             console.log(user);
             this.users.unshift(user);
-        })
+        });
+    }
+
+    deleteUser(id) {
+        this.dataService.deleteUser(id).subscribe(res => {
+            console.log(res);
+            for (let i = 0; i < this.users.length; i++) {
+                if (this.users[i].id == id) {
+                    this.users.splice(i, 1);
+                }
+            }
+        });
     }
 
 }
