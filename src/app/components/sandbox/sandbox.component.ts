@@ -5,19 +5,17 @@ import { Component } from '@angular/core';
     template: `
         <h4>{{ text }}</h4>
         <div class="container">
-            <form>
+            <form (submit)="onSubmit()">
                 <div class="form-group">
                     <label>Name:</label>
                     <input type="text" [(ngModel)]="name" class="form-control" name="name">
                 </div>
-                <div class="form-group">
-                    <label>Age:</label>
-                    <input type="number" [(ngModel)]="age" class="form-control" name="age">
-                </div>
                 <input type="submit" value="submit" class="btn btn-success">
             </form>
-            <h4>{{ name }}</h4>
-            <h4>{{ age }}</h4>
+            <br>
+            <ul class="list-group">
+                <li class="list-group-item" *ngFor="let user of users">{{ user }}</li>
+            </ul>
         </div>
     `
 })
@@ -25,6 +23,11 @@ import { Component } from '@angular/core';
 export class SandboxComponent {
 
     name: string = '';
-    age: number = 0;
+    users: string[] = ['Carl', 'John', 'Steve'];
+
+    onSubmit() {
+        this.users.push(this.name);
+        this.name = '';
+    }
 
 }
