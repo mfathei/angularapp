@@ -24,4 +24,5 @@ export class SandboxComponent {
 
     constructor() {
         console.log('constructor ran...');
+    }
 }
