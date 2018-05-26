@@ -1,33 +1,17 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { Http } from '@angular/http';
+import { map } from 'rxjs/operators';
 
 @Injectable()
 export class DataService {
-    data: Observable<any>;
+
+
+    constructor(private http: Http) {
+
+    }
 
     getData() {
-        this.data = new Observable(observer => {
-            setTimeout(() => {
-                observer.next(1);
-            }, 1000);
-
-            setTimeout(() => {
-                observer.next(2);
-            }, 2000);
-
-            setTimeout(() => {
-                observer.next(3);
-            }, 3000);
-
-            setTimeout(() => {
-                observer.next('Hello');
-            }, 4000);
-
-            setTimeout(() => {
-                observer.complete();
-            }, 5000);
-        });
-
-        return this.data;
+        return this.http.get('https://jsonplaceholder.typicode.com/users').pipe(map(res => res.json()));
     }
 }

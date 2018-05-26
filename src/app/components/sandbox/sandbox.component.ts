@@ -5,20 +5,23 @@ import { DataService } from '../../services/data.service';
     selector: 'sandbox',
     template: `
         <div class="container">
-            <ul class="list-group">
-                <li class="list-group-item" *ngFor="let p of data">{{ p }}</li>
+            <ul class="list-group" *ngFor="let user of users">
+                <li class="list-group-item" >Name: {{ user.name }}</li>
+                <li class="list-group-item" >Email: {{ user.email }}</li>
+                <li class="list-group-item" >Phone: {{ user.phone }}</li>
             </ul>
+            <br/>
         </div>
     `
 })
 
 export class SandboxComponent {
 
-    data: any[] = [];
+    users: any[];
 
     constructor(private dataService: DataService) {
         this.dataService.getData().subscribe((data) => {
-            this.data.push(data);
+            this.users = data;
         });
     }
 
